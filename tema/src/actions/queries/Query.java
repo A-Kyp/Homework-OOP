@@ -155,6 +155,36 @@ public class Query {
         return qb.buildQuery(result,order,a,in,n,1);
     }
 
+    public String mostViewM(int n, String order, Input in, ActionInputData a) {
+        LinkedHashMap<String, Double> result = new LinkedHashMap<>();
+        ViewsCalculator vc = new ViewsCalculator();
+        QueryBuilder qb = new QueryBuilder();
+        int views;
+
+        for(MovieInputData movie : in.getMovies()) {
+            views = vc.getViews(movie.getTitle(),in);
+            if(views != 0) {
+                result.put(movie.getTitle(), (double)views);
+            }
+        }
+        return qb.buildQuery(result,order,a,in,n,0);
+    }
+
+    public String mostViewS(int n, String order, Input in, ActionInputData a) {
+        LinkedHashMap<String, Double> result = new LinkedHashMap<>();
+        ViewsCalculator vc = new ViewsCalculator();
+        QueryBuilder qb = new QueryBuilder();
+        int views;
+
+        for(SerialInputData movie : in.getSerials()) {
+            views = vc.getViews(movie.getTitle(),in);
+            if(views != 0) {
+                result.put(movie.getTitle(), (double)views);
+            }
+        }
+        return qb.buildQuery(result,order,a,in,n,2);
+    }
+
     public String execute(Input in, ActionInputData a, Grader grd) {
         if(a.getObjectType().equals("users")) {
             return numberOfRatings(a.getNumber(), a.getSortType(), grd, in);
@@ -178,6 +208,12 @@ public class Query {
         else if(a.getObjectType().equals("shows") && (a.getCriteria().equals("favorite")
                 || a.getCriteria().equals("favourite"))) {
             return favoriteS(a.getNumber(),a.getSortType(),in,a);
+        }
+        else if(a.getObjectType().equals("movies") && a.getCriteria().equals("most_viewed")) {
+            return mostViewM(a.getNumber(),a.getSortType(),in,a);
+        }
+        else if(a.getObjectType().equals("shows") && a.getCriteria().equals("most_viewed")) {
+            return mostViewS(a.getNumber(),a.getSortType(),in,a);
         }
 
         return "";
