@@ -1,6 +1,6 @@
-package queries;
+package actions.queries;
 
-import commands.Sorter;
+import actions.Sorter;
 import fileio.ActionInputData;
 import fileio.Input;
 
@@ -14,7 +14,7 @@ public class QueryBuilder {
     public String buildQuery(LinkedHashMap<String, Double> result, String ord,
                              ActionInputData a, Input in, int n, int type) {
         Sorter sorter = new Sorter();
-        QueryVideo video = new QueryVideo(a);
+        QueryFilter video = new QueryFilter(a);
 
         if (ord.equals("asc")) {
             result =  sorter.sortAscOrder(result);

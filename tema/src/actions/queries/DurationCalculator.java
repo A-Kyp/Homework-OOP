@@ -1,4 +1,4 @@
-package queries;
+package actions.queries;
 
 import entertainment.Season;
 import fileio.MovieInputData;

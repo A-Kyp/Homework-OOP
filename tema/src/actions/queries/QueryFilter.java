@@ -1,7 +1,7 @@
-package queries;
+package actions.queries;
 
-import commands.MovieIndexFinder;
-import commands.SerialIndexFinder;
+import actions.MovieIndexFinder;
+import actions.SerialIndexFinder;
 import fileio.ActionInputData;
 import fileio.Input;
 import fileio.MovieInputData;
@@ -10,11 +10,11 @@ import fileio.SerialInputData;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QueryVideo {
+public class QueryFilter {
 
     ArrayList<String> filters = new ArrayList();
 
-    public QueryVideo(ActionInputData a) {
+    public QueryFilter(ActionInputData a) {
         for(List<String> s : a.getFilters()){
             if(s != null) {
                 filters.add(s.get(0));
@@ -29,14 +29,19 @@ public class QueryVideo {
         int year = 0;
         int genre = 0;
         int nullCount = 0;
+        String intToString;
 
         for(String f : filters) {
             if(f != null) {
-                if (f.equals(movie.getYear())) {
+                intToString = String.valueOf(movie.getYear());
+                if (f.equals(intToString)) {
                     year = 1;
                 }
-                if (f.equals(movie.getGenres())) {
-                    genre = 1;
+                for(String gen : movie.getGenres()) {
+                    if (f.equals(gen)) {
+                        genre = 1;
+                        break;
+                    }
                 }
             }
             else {
@@ -58,14 +63,19 @@ public class QueryVideo {
         int year = 0;
         int genre = 0;
         int nullCount = 0;
+        String intToString;
 
         for(String f : filters) {
             if(f != null) {
-                if (f.equals(serial.getYear())) {
+                intToString = String.valueOf(serial.getYear());
+                if (f.equals(intToString)) {
                     year = 1;
                 }
-                if (f.equals(serial.getGenres())) {
-                    genre = 1;
+                for(String gen : serial.getGenres()) {
+                    if (f.equals(gen)) {
+                        genre = 1;
+                        break;
+                    }
                 }
             }
             else {

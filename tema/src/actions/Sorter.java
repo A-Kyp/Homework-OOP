@@ -1,4 +1,4 @@
-package commands;
+package actions;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

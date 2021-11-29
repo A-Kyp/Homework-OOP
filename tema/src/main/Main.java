@@ -2,19 +2,18 @@ package main;
 
 import checker.Checkstyle;
 import checker.Checker;
-import commands.Grader;
-import commands.UserCommands;
+import actions.commands.Grader;
+import actions.commands.UserCommands;
 import common.Constants;
 import fileio.*;
 import org.json.simple.JSONArray;
-import queries.Query;
+import actions.queries.Query;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**

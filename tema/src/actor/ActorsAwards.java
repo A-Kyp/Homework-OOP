@@ -1,7 +1,7 @@
 package actor;
 
 /**
- * Awards for actors to be used for queries
+ * Awards for actors to be used for actions.queries
  * <p>
  * DO NOT MODIFY
  */

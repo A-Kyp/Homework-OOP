@@ -1,4 +1,4 @@
-package commands;
+package actions.commands;
 
 import java.util.ArrayList;
 

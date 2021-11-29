@@ -1,4 +1,4 @@
-package commands;
+package actions.commands;
 
 import fileio.ActionInputData;
 import fileio.UserInputData;

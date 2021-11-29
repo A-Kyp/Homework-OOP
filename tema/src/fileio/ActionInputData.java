@@ -19,7 +19,7 @@ public final class ActionInputData {
      */
     private final String actionType;
     /**
-     * Used for commands
+     * Used for actions.commands
      */
     private final String type;
     /**

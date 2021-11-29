@@ -1,7 +1,4 @@
-package commands;
-
-import fileio.ActionInputData;
-import fileio.UserInputData;
+package actions.commands;
 
 import java.util.ArrayList;
 

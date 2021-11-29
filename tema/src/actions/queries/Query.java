@@ -1,13 +1,10 @@
-package queries;
+package actions.queries;
 
-import commands.Grader;
-import commands.MovieIndexFinder;
-import commands.SerialIndexFinder;
-import commands.Sorter;
-import fileio.ActionInputData;
-import fileio.Input;
-import fileio.MovieInputData;
-import fileio.ShowInput;
+import actions.commands.Grader;
+import actions.MovieIndexFinder;
+import actions.SerialIndexFinder;
+import actions.Sorter;
+import fileio.*;
 
 import java.util.*;
 
@@ -87,7 +84,7 @@ public class Query {
     }
 
     public String ratingShow(int n, String order, Grader grd, Input in, ActionInputData a) {
-        QueryVideo video = new QueryVideo(a);
+        QueryFilter video = new QueryFilter(a);
         StringBuilder sb = new StringBuilder();
         SerialIndexFinder sIndex = new SerialIndexFinder();
         int index = sIndex.getIndex(a.getTitle(), in);
@@ -114,7 +111,6 @@ public class Query {
 
     public String longestS(int n, String order, Input in, ActionInputData a) {
         LinkedHashMap<String, Double> result = new LinkedHashMap<>();
-        Sorter sorter = new Sorter();
         DurationCalculator dc = new DurationCalculator();
         QueryBuilder qb = new QueryBuilder();
 
@@ -123,6 +119,40 @@ public class Query {
         }
 
         return qb.buildQuery(result,order,a,in,a.getNumber(),1);
+    }
+
+    public  String favoriteM(int n, String order, Input in, ActionInputData a) {
+        LinkedHashMap<String, Double> result = new LinkedHashMap<>();
+        FavorabilityCalculator fc = new FavorabilityCalculator();
+        QueryBuilder qb = new QueryBuilder();
+
+        int favor;
+
+        for(MovieInputData m : in.getMovies()) {
+            favor = fc.getFavor(m.getTitle(),in);
+            if(favor != 0) {
+                result.put(m.getTitle(), (double)favor);
+            }
+        }
+
+        return qb.buildQuery(result,order,a,in,n,0);
+    }
+
+    public  String favoriteS(int n, String order, Input in, ActionInputData a) {
+        LinkedHashMap<String, Double> result = new LinkedHashMap<>();
+        FavorabilityCalculator fc = new FavorabilityCalculator();
+        QueryBuilder qb = new QueryBuilder();
+
+        int favor;
+
+        for(SerialInputData ser : in.getSerials()) {
+            favor = fc.getFavor(ser.getTitle(),in);
+            if(favor != 0) {
+                result.put(ser.getTitle(), (double)favor);
+            }
+        }
+
+        return qb.buildQuery(result,order,a,in,n,1);
     }
 
     public String execute(Input in, ActionInputData a, Grader grd) {
@@ -139,8 +169,17 @@ public class Query {
             return longestM(a.getNumber(),a.getSortType(),in,a);
         }
         else if(a.getObjectType().equals("shows") && a.getCriteria().equals("longest")) {
-            return ratingShow(a.getNumber(), a.getSortType(), grd, in, a);
+            return longestS(a.getNumber(),a.getSortType(),in,a);
         }
+        else if(a.getObjectType().equals("movies") && (a.getCriteria().equals("favorite")
+                                                        || a.getCriteria().equals("favourite"))) {
+            return favoriteM(a.getNumber(),a.getSortType(),in,a);
+        }
+        else if(a.getObjectType().equals("shows") && (a.getCriteria().equals("favorite")
+                || a.getCriteria().equals("favourite"))) {
+            return favoriteS(a.getNumber(),a.getSortType(),in,a);
+        }
+
         return "";
     }
 }
