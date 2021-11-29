@@ -1,6 +1,5 @@
 package main;
 
-import Usr.User;
 import checker.Checkstyle;
 import checker.Checker;
 import commands.Grader;
@@ -8,6 +7,7 @@ import commands.UserCommands;
 import common.Constants;
 import fileio.*;
 import org.json.simple.JSONArray;
+import queries.Query;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,13 +72,10 @@ public final class Main {
         JSONArray arrayResult = new JSONArray();
 
         //TODO add here the entry point to your implementation
-        ArrayList<User> usrs = new ArrayList<>();
-        for(UserInputData u : input.getUsers()) {
-            usrs.add(new User(u));
-        }
-
         UserCommands comm = new UserCommands();
         Grader grd = new Grader();
+        Query query = new Query();
+
         grd.initializeMatrix(input.getMovies().size(), input.getUsers().size());
 
         /*Iterate through the action list*/
@@ -93,7 +90,7 @@ public final class Main {
                 }
             }
             else if(aid.getActionType().equals("query")) {
-
+                arrayResult.add(fileWriter.writeFile(aid.getActionId(), "", query.execute(input,aid,grd)));
             }
         }
 

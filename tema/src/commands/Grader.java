@@ -2,6 +2,7 @@ package commands;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Grader {
@@ -38,5 +39,16 @@ public class Grader {
         }
     }
 
-//    public void initializeSerials(int nrSeasons,)
+    public LinkedHashMap<String, Double> getRateForFilm () {
+        LinkedHashMap<String, Double> list = new LinkedHashMap<>();
+        double sum = 0;
+        for(Map.Entry<String, ArrayList<Double>> e : filmGrades.entrySet()) {
+            sum = 0;
+            for(Double d: e.getValue()) {
+                sum += d;
+            }
+            list.put(e.getKey(),sum/e.getValue().size());
+        }
+        return list;
+    }
 }
