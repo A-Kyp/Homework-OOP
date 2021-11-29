@@ -72,8 +72,8 @@ public final class Main {
         JSONArray arrayResult = new JSONArray();
 
         //TODO add here the entry point to your implementation
-        UserCommands comm = new UserCommands();
         Grader grd = new Grader();
+        UserCommands comm = new UserCommands();
         Query query = new Query();
 
         grd.initializeMatrix(input.getMovies().size(), input.getUsers().size());
@@ -89,6 +89,7 @@ public final class Main {
                     }
                 }
             }
+            /*Check if ot it is a query*/
             else if(aid.getActionType().equals("query")) {
                 arrayResult.add(fileWriter.writeFile(aid.getActionId(), "", query.execute(input,aid,grd)));
             }

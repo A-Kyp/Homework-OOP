@@ -29,8 +29,7 @@ public class UserCommands {
     }
 
     public String favorite(UserInputData user , String title) {
-        if(user.getHistory().containsKey(title)) {
-//        if(hasSeen(title, user) == 1) {
+        if(hasSeen(title, user) == 1) {
             if(!user.getFavoriteMovies().contains(title)) {
                 user.getFavoriteMovies().add(title);
             }
@@ -44,23 +43,9 @@ public class UserCommands {
         return "success -> " + title + " was added as favourite";
     }
 
-    private int getIndexOfMovie(String title, Input input) {
-        for(int i = 0; i < input.getMovies().size(); ++i) {
-            if(input.getMovies().get(i).getTitle().equals(title)) {
-                return i; //return the index of the film
-            }
-        }
-        return -1; // or -1 if the film does not exist -> it must be a serial
-    }
-
-    private int getIndexOfUser(String name, Input input) {
-        for(int i = 0; i < input.getUsers().size(); ++i) {
-            if(input.getUsers().get(i).getUsername().equals(name)) {
-                return i; //return the index of the user
-            }
-        }
-        return -1; // or -1 if the user does not exist
-    }
+    MovieIndexFinder mIndex = new MovieIndexFinder();
+    UserIndexFinder uIndex = new UserIndexFinder();
+    SerialIndexFinder sIndex = new SerialIndexFinder();
 
     public String grade(Input input, ActionInputData actionInputData, Grader grader, int usrIndex, int filmIndex) {
         if(hasSeen(actionInputData.getTitle(), input.getUsers().get(usrIndex)) == 1) {
@@ -95,45 +80,44 @@ public class UserCommands {
                 + " by " + actionInputData.getUsername();
     }
 
-    public String gradeSerial(ActionInputData actionInputData, UserInputData user, Grader grd) {
-        if(user.getHistory().containsKey(actionInputData.getTitle())) {
-            for(GraderSerials s : grd.getSerialGrads()) {
-                if(s.addGradeAndCheck(actionInputData.getSeasonNumber(),actionInputData.getGrade(), user) == 0) {
-                    return "error " + actionInputData.getTitle() + " has already been rated";
-                }
-            }
+    public String gradeSerial(ActionInputData a, UserInputData user, Grader grd, int tSeasons) {
+        if(hasSeen(a.getTitle(), user) == 0) {
+            return "error -> " + a.getTitle() + " is not seen";
+        }
 
-            /*Keep track of the user activity*/
-            if (grd.getFilmUserActivity().containsKey(actionInputData.getUsername())) {
-                grd.getFilmUserActivity().put(actionInputData.getUsername(),
-                        grd.getFilmUserActivity().get(actionInputData.getUsername()) + 1);
-            }
-            else {
-                grd.getFilmUserActivity().put(actionInputData.getUsername(), 1);
-            }
-            return "success -> " + actionInputData.getTitle()
-                    + " was rated with " + actionInputData.getGrade()
-                    + " by " + actionInputData.getUsername();
+        if (grd.addAndGradeSerial(a.getTitle(), a, user, a.getSeasonNumber(), tSeasons) == 0) {
+            return "error " + a.getTitle() + " has already been rated";
         }
-        else {
-            return "error -> " + actionInputData.getTitle() + " is not seen";
+
+        /*Keep track of the user activity*/
+        if (grd.getFilmUserActivity().containsKey(a.getUsername())) {
+            grd.getFilmUserActivity().put(a.getUsername(),
+                    grd.getFilmUserActivity().get(a.getUsername()) + 1);
+        } else {
+            grd.getFilmUserActivity().put(a.getUsername(), 1);
         }
+        return "success -> " + a.getTitle()
+                + " was rated with " + a.getGrade()
+                + " by " + a.getUsername();
+
     }
 
-    public String execute(Input in, ActionInputData action, UserInputData u, Grader grd) {
-        if(action.getType().equals("view")) {
-            return view(u, action.getTitle());
+    public String execute(Input in, ActionInputData a, UserInputData u, Grader grd) {
+        if(a.getType().equals("view")) {
+            return view(u, a.getTitle());
         }
-        else if(action.getType().compareTo("favorite") == 0) {
-            return favorite(u, action.getTitle());
+        else if(a.getType().compareTo("favorite") == 0) {
+            return favorite(u, a.getTitle());
         }
-        else if(action.getType().equals("rating")) {
-            if(getIndexOfMovie(action.getTitle(), in)  != -1) {
-                return grade(in, action, grd, getIndexOfUser(action.getUsername(), in),
-                        getIndexOfMovie(action.getTitle(), in));
+        else if(a.getType().equals("rating")) {
+            if(mIndex.getIndex(a.getTitle(), in)  != -1) {
+                return grade(in, a, grd, uIndex.getindex(a.getUsername(), in),
+                        mIndex.getIndex(a.getTitle(), in));
             }
-            else return gradeSerial(action, in.getUsers().get(getIndexOfUser(action.getUsername(), in)), grd);
+            else
+                return gradeSerial(a, in.getUsers().get(uIndex.getindex(a.getUsername(), in)),
+                        grd, in.getSerials().get(sIndex.getIndex(a.getTitle(), in)).getNumberSeason());
         }
-        return "error " + action.getTitle() + " has already been rated";
+        return "error " + a.getTitle() + " has already been rated";
     }
 }

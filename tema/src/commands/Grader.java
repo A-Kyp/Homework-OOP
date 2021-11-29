@@ -1,5 +1,8 @@
 package commands;
 
+import fileio.ActionInputData;
+import fileio.UserInputData;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -9,7 +12,7 @@ public class Grader {
     private Map<String, ArrayList<Double>> filmGrades = new HashMap<>();
     private Map<String, Integer> filmUserActivity = new HashMap<>();
     private ArrayList<ArrayList<Boolean>> filmRateOnce = new ArrayList<>();
-    private ArrayList<GraderSerials> serialGrads = new ArrayList<>();
+    private ArrayList<SerialsGrader> serialsGraders = new ArrayList<>();
 
     public Map<String, ArrayList<Double>> getFilmGrades() {
         return filmGrades;
@@ -23,8 +26,8 @@ public class Grader {
         return filmRateOnce;
     }
 
-    public ArrayList<GraderSerials> getSerialGrads() {
-        return serialGrads;
+    public ArrayList<SerialsGrader> getSerialsGraders() {
+        return serialsGraders;
     }
 
     public void initializeMatrix(int nrOfFilms, int nrOfUser) {
@@ -39,6 +42,47 @@ public class Grader {
         }
     }
 
+    public int addAndGradeSerial(String title, ActionInputData a, UserInputData u, int sNo, int tSeasons) {
+        if(tSeasons < sNo) {
+            return 0; //action denied -> you tried to rate a nonexistent season
+        }
+
+        for(SerialsGrader g : serialsGraders) {
+            /*Check if the serial has been rated yet*/
+            if(g.getTitle().equals(title)) {
+                /*Check if the user has already given feedback for any of the seasons*/
+                for(SerialGradesByUser s : g.getRatings()) {
+                    if(s.getUsername().equals(u.getUsername())) {
+                        /*If the season is not graded */
+                        if(s.getSeasonsGrades().get(sNo) == 0) {
+                            s.getSeasonsGrades().set(sNo, a.getGrade());
+                            return 1; //action permitted
+                        }
+                        else {
+                            return 0; //action denied -> don't cheat!!! you already rated this season
+                        }
+                    }
+                }
+                /*Didn't find the user. We have to add a new entry for the user*/
+                SerialGradesByUser sgbu = new SerialGradesByUser();
+                sgbu.setUsername(u.getUsername());
+                sgbu.initialize(tSeasons);
+                sgbu.getSeasonsGrades().set(sNo, a.getGrade());
+                return 1; //action permitted
+            }
+        }
+        /*Didn't find the serial. We have to introduce new entry for the serial*/
+        SerialsGrader newSG = new SerialsGrader(title);
+        /*Add new user entry*/
+        SerialGradesByUser sgbu = new SerialGradesByUser();
+        sgbu.setUsername(u.getUsername());
+        sgbu.initialize(tSeasons);
+        sgbu.getSeasonsGrades().set(sNo, a.getGrade());
+        newSG.getRatings().add(sgbu);
+        serialsGraders.add(newSG);
+        return 1; //action permitted
+    }
+
     public LinkedHashMap<String, Double> getRateForFilm () {
         LinkedHashMap<String, Double> list = new LinkedHashMap<>();
         double sum = 0;
@@ -48,6 +92,15 @@ public class Grader {
                 sum += d;
             }
             list.put(e.getKey(),sum/e.getValue().size());
+        }
+        return list;
+    }
+
+    public LinkedHashMap<String, Double> getRateForSerial () {
+        LinkedHashMap<String, Double> list = new LinkedHashMap<>();
+        double sum = 0;
+        for(SerialsGrader sg : serialsGraders) {
+            list.put(sg.getTitle(), sg.calculateGrade());
         }
         return list;
     }
