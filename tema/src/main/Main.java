@@ -75,8 +75,6 @@ public final class Main {
         UserCommands comm = new UserCommands();
         Query query = new Query();
 
-        grd.initializeMatrix(input.getMovies().size(), input.getUsers().size());
-
         /*Iterate through the action list*/
         for(ActionInputData aid : input.getCommands()) {
             /*Check if the command is user related*/

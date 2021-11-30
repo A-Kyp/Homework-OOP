@@ -7,7 +7,7 @@ import fileio.ActionInputData;
 import fileio.Input;
 import fileio.UserInputData;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserCommands {
     public String view(UserInputData user, String title) {
@@ -50,37 +50,55 @@ public class UserCommands {
     UserIndexFinder uIndex = new UserIndexFinder();
     SerialIndexFinder sIndex = new SerialIndexFinder();
 
-    public String gradeM(Input input, ActionInputData actionInputData, Grader grader, int usrIndex, int filmIndex) {
-        if(hasSeen(actionInputData.getTitle(), input.getUsers().get(usrIndex)) == 1) {
-            if (grader.getFilmRateOnce().get(filmIndex).get(usrIndex) != null) {
-                /*Keep track of the grades of different films*/
-                if (grader.getFilmGrades().containsKey(actionInputData.getTitle())) {
-                    grader.getFilmGrades().get(actionInputData.getTitle()).add(actionInputData.getGrade());
-                } else {
-                    ArrayList<Double> arr = new ArrayList<>();
-                    arr.add(actionInputData.getGrade());
-                    grader.getFilmGrades().put(actionInputData.getTitle(), arr);
+    public String gradeM(Input in, ActionInputData a, Grader grd, int usrIndex, int filmIndex) {
+        if(hasSeen(a.getTitle(), in.getUsers().get(usrIndex)) == 1){
+            /*Check if the movie was already rated by others users*/
+            if(grd.getRatedFilms().containsKey(a.getTitle())) {
+                /*Check if the user has already rated*/
+                if(grd.getRatedFilms().get(a.getTitle()).containsKey(a.getUsername())) {
+                    /*Cheating!!!!! The users has already graded!!!*/
+                    return "error -> " + a.getTitle() + " has been already rated";
                 }
+                else{
+                    /*We can add the grade safely*/
+                    grd.getRatedFilms().get(a.getTitle()).put(a.getUsername(), a.getGrade());
+
+                    /*Keep track of the user activity*/
+                    if (grd.getFilmUserActivity().containsKey(a.getUsername())) {
+                        grd.getFilmUserActivity().put(a.getUsername(),
+                                grd.getFilmUserActivity().get(a.getUsername()) + 1);
+                    }
+                    else {
+                        grd.getFilmUserActivity().put(a.getUsername(), 1);
+                    }
+
+                    return "success -> " + a.getTitle()
+                            + " was rated with " + a.getGrade()
+                            + " by " + a.getUsername();
+                }
+            }
+            else {
+                /*We need to add a new entry for movie*/
+                grd.getRatedFilms().put(a.getTitle(),new HashMap<String,Double>());
+                grd.getRatedFilms().get(a.getTitle()).put(a.getUsername(),a.getGrade());
 
                 /*Keep track of the user activity*/
-                if (grader.getFilmUserActivity().containsKey(actionInputData.getUsername())) {
-                    grader.getFilmUserActivity().put(actionInputData.getUsername(),
-                            grader.getFilmUserActivity().get(actionInputData.getUsername()) + 1);
+                if (grd.getFilmUserActivity().containsKey(a.getUsername())) {
+                    grd.getFilmUserActivity().put(a.getUsername(),
+                            grd.getFilmUserActivity().get(a.getUsername()) + 1);
                 }
                 else {
-                    grader.getFilmUserActivity().put(actionInputData.getUsername(), 1);
+                    grd.getFilmUserActivity().put(a.getUsername(), 1);
                 }
 
-                /*Mark that the user has rated the film*/
-                grader.getFilmRateOnce().get(filmIndex).add(usrIndex, Boolean.TRUE);
+                return "success -> " + a.getTitle()
+                        + " was rated with " + a.getGrade()
+                        + " by " + a.getUsername();
             }
         }
         else {
-            return "error -> " + actionInputData.getTitle() + " is not seen";
+            return "error -> " + a.getTitle() + " is not seen";
         }
-        return "success -> " + actionInputData.getTitle()
-                + " was rated with " + actionInputData.getGrade()
-                + " by " + actionInputData.getUsername();
     }
 
     public String gradeS(ActionInputData a, UserInputData user, Grader grd, int tSeasons) {

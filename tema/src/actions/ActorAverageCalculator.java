@@ -13,7 +13,8 @@ public class ActorAverageCalculator {
         int nrOfRate = 0;
         int found = 0;
         for(String title : act.getFilmography()) {
-            if(grd.getFilmGrades().containsKey(title)) {
+//            if(grd.getFilmGrades().containsKey(title)) {
+            if(grd.getRatedFilms().containsKey(title)) {
                 sum += grd.videoRate(title);
                 nrOfRate ++;
                 found = 1;

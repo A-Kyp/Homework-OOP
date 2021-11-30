@@ -195,8 +195,6 @@ public class Query {
             average = ac.getAverage(grd,act);
             if(average != 0d) {
                 result.put(act.getName(), average);
-
-                System.out.println("Name: " + act.getName() + " Average: " + average + "\n");
             }
         }
         return qb.buildQuery(result,order,a,in,n,-1);
@@ -233,7 +231,6 @@ public class Query {
             return mostViewS(a.getNumber(),a.getSortType(),in,a);
         }
         else if(a.getObjectType().equals("actors") && a.getCriteria().equals("average")) {
-            System.out.println(in.getActors().size() + "hope\n");
             return average(a.getNumber(),a.getSortType(),in,a,grd);
         }
 
