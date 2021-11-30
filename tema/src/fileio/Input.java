@@ -17,7 +17,7 @@ public final class Input {
      */
     private final List<UserInputData> usersData;
     /**
-     * List of commands
+     * List of actions.commands
      */
     private final List<ActionInputData> commandsData;
     /**

@@ -44,7 +44,7 @@ public final class Checker {
      *
      * @param queryTests1 first query test
      * @param queryTests2 second query test
-     * @return true if the queries have the same values
+     * @return true if the actions.queries have the same values
      */
     public boolean compareQueries(final List<QueryTest> queryTests1,
                                   final List<QueryTest> queryTests2) {

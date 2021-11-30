@@ -1,20 +1,20 @@
 package main;
 
+import actions.recommendation.Recommendation;
 import checker.Checkstyle;
 import checker.Checker;
-import commands.Grader;
-import commands.UserCommands;
+import actions.commands.Grader;
+import actions.commands.UserCommands;
 import common.Constants;
 import fileio.*;
 import org.json.simple.JSONArray;
-import queries.Query;
+import actions.queries.Query;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -72,11 +72,10 @@ public final class Main {
         JSONArray arrayResult = new JSONArray();
 
         //TODO add here the entry point to your implementation
-        UserCommands comm = new UserCommands();
         Grader grd = new Grader();
+        UserCommands comm = new UserCommands();
         Query query = new Query();
-
-        grd.initializeMatrix(input.getMovies().size(), input.getUsers().size());
+        Recommendation rec = new Recommendation();
 
         /*Iterate through the action list*/
         for(ActionInputData aid : input.getCommands()) {
@@ -89,8 +88,12 @@ public final class Main {
                     }
                 }
             }
+            /*Check if ot it is a query*/
             else if(aid.getActionType().equals("query")) {
                 arrayResult.add(fileWriter.writeFile(aid.getActionId(), "", query.execute(input,aid,grd)));
+            }
+            else {
+                arrayResult.add(fileWriter.writeFile(aid.getActionId(), "", rec.execute(input,aid,comm)));
             }
         }
 
