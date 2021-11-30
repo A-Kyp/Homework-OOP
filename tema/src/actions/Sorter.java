@@ -29,6 +29,9 @@ public class Sorter {
                     @Override
                     public int compare(Entry<String, Double> o1,
                                        Entry<String, Double> o2) {
+                        if(o1.getValue().compareTo(o2.getValue()) == 0) {
+                            return o1.getKey().compareTo(o2.getKey());
+                        }
                         return o1.getValue().compareTo(o2.getValue());
                     }
                 });
@@ -59,6 +62,9 @@ public class Sorter {
                     @Override
                     public int compare(Entry<String, Double> o1,
                                        Entry<String, Double> o2) {
+                        if(o1.getValue().compareTo(o2.getValue()) == 0) {
+                            return o2.getKey().compareTo(o1.getKey());
+                        }
                         return o2.getValue().compareTo(o1.getValue());
                     }
                 });

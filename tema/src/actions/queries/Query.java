@@ -1,5 +1,6 @@
 package actions.queries;
 
+import actions.ActorAverageCalculator;
 import actions.commands.Grader;
 import actions.MovieIndexFinder;
 import actions.SerialIndexFinder;
@@ -185,6 +186,22 @@ public class Query {
         return qb.buildQuery(result,order,a,in,n,2);
     }
 
+    public String average(int n, String order, Input in, ActionInputData a, Grader grd) {
+        LinkedHashMap<String, Double> result = new LinkedHashMap<>();
+        ActorAverageCalculator ac = new ActorAverageCalculator();
+        QueryBuilder qb = new QueryBuilder();
+        Double average;
+        for(ActorInputData act : in.getActors()) {
+            average = ac.getAverage(grd,act);
+            if(average != 0d) {
+                result.put(act.getName(), average);
+
+                System.out.println("Name: " + act.getName() + " Average: " + average + "\n");
+            }
+        }
+        return qb.buildQuery(result,order,a,in,n,-1);
+    }
+
     public String execute(Input in, ActionInputData a, Grader grd) {
         if(a.getObjectType().equals("users")) {
             return numberOfRatings(a.getNumber(), a.getSortType(), grd, in);
@@ -214,6 +231,10 @@ public class Query {
         }
         else if(a.getObjectType().equals("shows") && a.getCriteria().equals("most_viewed")) {
             return mostViewS(a.getNumber(),a.getSortType(),in,a);
+        }
+        else if(a.getObjectType().equals("actors") && a.getCriteria().equals("average")) {
+            System.out.println(in.getActors().size() + "hope\n");
+            return average(a.getNumber(),a.getSortType(),in,a,grd);
         }
 
         return "";

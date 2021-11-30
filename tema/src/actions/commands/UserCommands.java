@@ -50,7 +50,7 @@ public class UserCommands {
     UserIndexFinder uIndex = new UserIndexFinder();
     SerialIndexFinder sIndex = new SerialIndexFinder();
 
-    public String grade(Input input, ActionInputData actionInputData, Grader grader, int usrIndex, int filmIndex) {
+    public String gradeM(Input input, ActionInputData actionInputData, Grader grader, int usrIndex, int filmIndex) {
         if(hasSeen(actionInputData.getTitle(), input.getUsers().get(usrIndex)) == 1) {
             if (grader.getFilmRateOnce().get(filmIndex).get(usrIndex) != null) {
                 /*Keep track of the grades of different films*/
@@ -83,7 +83,7 @@ public class UserCommands {
                 + " by " + actionInputData.getUsername();
     }
 
-    public String gradeSerial(ActionInputData a, UserInputData user, Grader grd, int tSeasons) {
+    public String gradeS(ActionInputData a, UserInputData user, Grader grd, int tSeasons) {
         if(hasSeen(a.getTitle(), user) == 0) {
             return "error -> " + a.getTitle() + " is not seen";
         }
@@ -114,11 +114,11 @@ public class UserCommands {
         }
         else if(a.getType().equals("rating")) {
             if(mIndex.getIndex(a.getTitle(), in)  != -1) {
-                return grade(in, a, grd, uIndex.getindex(a.getUsername(), in),
+                return gradeM(in, a, grd, uIndex.getindex(a.getUsername(), in),
                         mIndex.getIndex(a.getTitle(), in));
             }
             else
-                return gradeSerial(a, in.getUsers().get(uIndex.getindex(a.getUsername(), in)),
+                return gradeS(a, in.getUsers().get(uIndex.getindex(a.getUsername(), in)),
                         grd, in.getSerials().get(sIndex.getIndex(a.getTitle(), in)).getNumberSeason());
         }
         return "error " + a.getTitle() + " has already been rated";

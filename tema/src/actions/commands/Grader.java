@@ -9,10 +9,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Grader {
-    private Map<String, ArrayList<Double>> filmGrades = new HashMap<>();
-    private Map<String, Integer> filmUserActivity = new HashMap<>();
-    private ArrayList<ArrayList<Boolean>> filmRateOnce = new ArrayList<>();
-    private ArrayList<SerialsGrader> serialsGraders = new ArrayList<>();
+    private final Map<String, ArrayList<Double>> filmGrades = new HashMap<>();
+    private final Map<String, Integer> filmUserActivity = new HashMap<>();
+    private final ArrayList<ArrayList<Boolean>> filmRateOnce = new ArrayList<>();
+    private final ArrayList<SerialsGrader> serialsGraders = new ArrayList<>();
 
     public Map<String, ArrayList<Double>> getFilmGrades() {
         return filmGrades;
@@ -103,5 +103,14 @@ public class Grader {
             list.put(sg.getTitle(), sg.calculateGrade());
         }
         return list;
+    }
+
+    public Double videoRate(String title) {
+        Double sum = 0d;
+        for(Double d : filmGrades.get(title)) {
+            sum += d;
+        }
+
+        return sum/filmGrades.get(title).size();
     }
 }
