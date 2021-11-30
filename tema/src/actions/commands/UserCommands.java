@@ -1,8 +1,8 @@
 package actions.commands;
 
-import actions.MovieIndexFinder;
-import actions.SerialIndexFinder;
-import actions.UserIndexFinder;
+import actions.IndexFinders.MovieIndexFinder;
+import actions.IndexFinders.SerialIndexFinder;
+import actions.IndexFinders.UserIndexFinder;
 import fileio.ActionInputData;
 import fileio.Input;
 import fileio.UserInputData;
@@ -22,7 +22,7 @@ public class UserCommands {
         return "success -> " + title + " was viewed with total views of " + user.getHistory().get(title);
     }
 
-    private int hasSeen(String title, UserInputData user) {
+    public int hasSeen(String title, UserInputData user) {
         if(user.getHistory().containsKey(title)) {
             return 1;
         }
@@ -66,10 +66,10 @@ public class UserCommands {
                     /*Keep track of the user activity*/
                     if (grd.getFilmUserActivity().containsKey(a.getUsername())) {
                         grd.getFilmUserActivity().put(a.getUsername(),
-                                grd.getFilmUserActivity().get(a.getUsername()) + 1);
+                                grd.getFilmUserActivity().get(a.getUsername()) + 1d);
                     }
                     else {
-                        grd.getFilmUserActivity().put(a.getUsername(), 1);
+                        grd.getFilmUserActivity().put(a.getUsername(), 1d);
                     }
 
                     return "success -> " + a.getTitle()
@@ -85,10 +85,10 @@ public class UserCommands {
                 /*Keep track of the user activity*/
                 if (grd.getFilmUserActivity().containsKey(a.getUsername())) {
                     grd.getFilmUserActivity().put(a.getUsername(),
-                            grd.getFilmUserActivity().get(a.getUsername()) + 1);
+                            grd.getFilmUserActivity().get(a.getUsername()) + 1d);
                 }
                 else {
-                    grd.getFilmUserActivity().put(a.getUsername(), 1);
+                    grd.getFilmUserActivity().put(a.getUsername(), 1d);
                 }
 
                 return "success -> " + a.getTitle()
@@ -113,9 +113,9 @@ public class UserCommands {
         /*Keep track of the user activity*/
         if (grd.getFilmUserActivity().containsKey(a.getUsername())) {
             grd.getFilmUserActivity().put(a.getUsername(),
-                    grd.getFilmUserActivity().get(a.getUsername()) + 1);
+                    grd.getFilmUserActivity().get(a.getUsername()) + 1d);
         } else {
-            grd.getFilmUserActivity().put(a.getUsername(), 1);
+            grd.getFilmUserActivity().put(a.getUsername(), 1d);
         }
         return "success -> " + a.getTitle()
                 + " was rated with " + a.getGrade()

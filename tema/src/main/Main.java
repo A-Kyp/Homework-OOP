@@ -1,5 +1,6 @@
 package main;
 
+import actions.recommendation.Recommendation;
 import checker.Checkstyle;
 import checker.Checker;
 import actions.commands.Grader;
@@ -74,6 +75,7 @@ public final class Main {
         Grader grd = new Grader();
         UserCommands comm = new UserCommands();
         Query query = new Query();
+        Recommendation rec = new Recommendation();
 
         /*Iterate through the action list*/
         for(ActionInputData aid : input.getCommands()) {
@@ -89,6 +91,9 @@ public final class Main {
             /*Check if ot it is a query*/
             else if(aid.getActionType().equals("query")) {
                 arrayResult.add(fileWriter.writeFile(aid.getActionId(), "", query.execute(input,aid,grd)));
+            }
+            else {
+                arrayResult.add(fileWriter.writeFile(aid.getActionId(), "", rec.execute(input,aid,comm)));
             }
         }
 

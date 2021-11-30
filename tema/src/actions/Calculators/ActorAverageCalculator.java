@@ -1,4 +1,4 @@
-package actions;
+package actions.Calculators;
 
 import actions.commands.Grader;
 import fileio.ActorInputData;
@@ -13,7 +13,6 @@ public class ActorAverageCalculator {
         int nrOfRate = 0;
         int found = 0;
         for(String title : act.getFilmography()) {
-//            if(grd.getFilmGrades().containsKey(title)) {
             if(grd.getRatedFilms().containsKey(title)) {
                 sum += grd.videoRate(title);
                 nrOfRate ++;
@@ -27,6 +26,7 @@ public class ActorAverageCalculator {
         }
         if(found == 1)
             return sum/nrOfRate;
+//            return sum;
         else
             return 0d;
     }

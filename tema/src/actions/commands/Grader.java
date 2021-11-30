@@ -10,19 +10,15 @@ import java.util.Map;
 
 public class Grader {
     private final Map<String, HashMap<String,Double>> ratedFilms = new HashMap<>();
-    private final Map<String, Integer> filmUserActivity = new HashMap<>();
+    private final LinkedHashMap<String, Double> filmUserActivity = new LinkedHashMap<>();
     private final ArrayList<SerialsGrader> serialsGraders = new ArrayList<>();
 
-    public Map<String, Integer> getFilmUserActivity() {
+    public LinkedHashMap<String, Double> getFilmUserActivity() {
         return filmUserActivity;
     }
 
     public Map<String, HashMap<String, Double>> getRatedFilms() {
         return ratedFilms;
-    }
-
-    public ArrayList<SerialsGrader> getSerialsGraders() {
-        return serialsGraders;
     }
 
     public int addAndGradeSerial(String title, ActionInputData a, UserInputData u, int sNo, int tSeasons) {
@@ -66,19 +62,6 @@ public class Grader {
         return 1; //action permitted
     }
 
-//    public LinkedHashMap<String, Double> getRateForFilm () {
-//        LinkedHashMap<String, Double> list = new LinkedHashMap<>();
-//        double sum = 0;
-//        for(Map.Entry<String, ArrayList<Double>> e : filmGrades.entrySet()) {
-//            sum = 0;
-//            for(Double d: e.getValue()) {
-//                sum += d;
-//            }
-//            list.put(e.getKey(),sum/e.getValue().size());
-//        }
-//        return list;
-//    }
-
     public LinkedHashMap<String, Double> getRateForFilm () {
         LinkedHashMap<String, Double> list = new LinkedHashMap<>();
         for(String title : ratedFilms.keySet()) {
@@ -89,7 +72,6 @@ public class Grader {
 
     public LinkedHashMap<String, Double> getRateForSerial () {
         LinkedHashMap<String, Double> list = new LinkedHashMap<>();
-        double sum = 0;
         for(SerialsGrader sg : serialsGraders) {
             list.put(sg.getTitle(), sg.calculateGrade());
         }

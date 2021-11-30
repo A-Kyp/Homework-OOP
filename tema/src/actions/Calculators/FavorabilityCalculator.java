@@ -1,4 +1,4 @@
-package actions.queries;
+package actions.Calculators;
 
 import fileio.Input;
 import fileio.UserInputData;

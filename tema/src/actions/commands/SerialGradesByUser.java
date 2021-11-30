@@ -27,7 +27,7 @@ public class SerialGradesByUser {
         for(Double d : seasonsGrades) {
             sum += d;
         }
-        return sum/seasonsGrades.size();
+        return sum/(seasonsGrades.size() - 1);
     }
 
     public void initialize(int totalNrSeasons) {

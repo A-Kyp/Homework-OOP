@@ -8,14 +8,20 @@ import java.util.LinkedHashMap;
 
 public class QueryBuilder {
     /**
+     * @param filter indicates witch type of query filter to use
+     *               put anything >0 (an int) for videos
+     *               and anything else (an int) for actors
+     *
      * @param type indicate witch filter to apply
-     *             put 0 for movies, anything else positive (an int) for serials
+     *             put 0 for movies,
+     *             anything else positive (an int) for serials
      *             and anything else negative (an int) for actors
+     *
      * */
     public String buildQuery(LinkedHashMap<String, Double> result, String ord,
-                             ActionInputData a, Input in, int n, int type) {
+                             ActionInputData a, Input in, int n, int filter, int type) {
         Sorter sorter = new Sorter();
-        QueryFilter video = new QueryFilter(a);
+        QueryFilter video = new QueryFilter(a, filter);
 
         if (ord.equals("asc")) {
             result =  sorter.sortAscOrder(result);
@@ -46,11 +52,6 @@ public class QueryBuilder {
                         }
                     }
                 }
-                else {//if it is an actor
-                    sb.append(s);
-                    sb.append(", ");
-                    found = 1;
-                }
             }
         }
         else {
@@ -72,18 +73,61 @@ public class QueryBuilder {
                         }
                     }
                 }
-                else {//actor
+            }
+        }
+        if(found == 1) {
+            int len = sb.toString().length();
+            len--;
+            sb.deleteCharAt(len);
+            sb.deleteCharAt(len - 1);
+        }
+
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public String buildQueryA(LinkedHashMap<String, Double> result, String ord,
+                             ActionInputData a, Input in, int n, int filter, char query) {
+        Sorter sorter = new Sorter();
+        QueryFilter video = new QueryFilter(a, filter);
+
+        if (ord.equals("asc")) {
+            result =  sorter.sortAscOrder(result);
+        }
+        else {
+            result = sorter.sortDescOrder(result);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Query result: [");
+
+        int found = 0;
+        if (n == -1 || n > in.getActors().size()) {
+            for (String s : result.keySet()) {
+
+                //if it is an actor
+                if (video.fitFilterAw(in, s, query) == 1) {
                     sb.append(s);
                     sb.append(", ");
                     found = 1;
                 }
-                i++;
-                if(i == n) {
+            }
+        } else {
+            int i = 0;
+            for (String s : result.keySet()) {
+                //actor
+                if (video.fitFilterAw(in, s, query) == 1) {
+                    sb.append(s);
+                    sb.append(", ");
+                    found = 1;
+                    i++;
+                }
+                if (i == n) {
                     break;
                 }
             }
         }
-        if(found == 1) {
+        if (found == 1) {
             int len = sb.toString().length();
             len--;
             sb.deleteCharAt(len);
