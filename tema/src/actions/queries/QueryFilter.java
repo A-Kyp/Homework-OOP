@@ -135,9 +135,8 @@ public class QueryFilter {
                 return 0;
 
             case 'd' :
-                String desc = " " +
-                        in.getActors().get(i).getCareerDescription().toLowerCase() +
-                        " ";
+                String desc = " " + in.getActors().get(i).getCareerDescription().toLowerCase()
+                                + " ";
                 desc = desc.replaceAll("\\W", " ");
 
                 for (String s : filtersA.get(filtersA.size() - 1)) {
