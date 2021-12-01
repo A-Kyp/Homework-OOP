@@ -3,15 +3,11 @@ package actions.commands;
 import java.util.ArrayList;
 
 public final class SerialGradesByUser {
-    private ArrayList<Double> seasonsGrades = new ArrayList<>();
+    private final ArrayList<Double> seasonsGrades = new ArrayList<>();
     private String username;
 
     public ArrayList<Double> getSeasonsGrades() {
         return seasonsGrades;
-    }
-
-    public void setSeasonsGrades(final ArrayList<Double> seasonsGrades) {
-        this.seasonsGrades = seasonsGrades;
     }
 
     public String getUsername() {

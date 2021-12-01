@@ -61,7 +61,7 @@ public class GenrePopularityCalculator {
     /**
      * @param in input data
      * @param arr initial bank map that will store (Genre - Nr of views for the genre) pairs
-     * @return returns the upfated map with calculated values for genre popularity
+     * @return returns the updated map with calculated values for genre popularity
      */
     public LinkedHashMap<String, Double> calcPopularity(final Input in,
                                                         final LinkedHashMap<String, Double> arr) {
@@ -87,8 +87,8 @@ public class GenrePopularityCalculator {
         for (UserInputData u : in.getUsers()) { //for every user
             //we update for each movie he has seen
             for (Map.Entry<String, Integer> e : u.getHistory().entrySet()) {
-                if (getSerial(e.getKey().toString(), in) != null) {
-                    for (String g : getSerial(e.getKey().toString(), in).getGenres()) {
+                if (getSerial(e.getKey(), in) != null) {
+                    for (String g : Objects.requireNonNull(getSerial(e.getKey(), in)).getGenres()) {
                         if (arr.containsKey(g)) { //the map that stores popularity for each genre
                             arr.put(g, arr.get(g) + Double.valueOf(e.getValue())); //update value
                         } else {

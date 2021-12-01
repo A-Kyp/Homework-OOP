@@ -14,8 +14,8 @@ import java.util.List;
 
 public class QueryFilter {
 
-    private final ArrayList<String> filters = new ArrayList();
-    private final ArrayList<List<String>> filtersA = new ArrayList();
+    private final ArrayList<String> filters = new ArrayList<>();
+    private final ArrayList<List<String>> filtersA = new ArrayList<>();
 
     /**
      * Initialize the filters list
@@ -135,11 +135,9 @@ public class QueryFilter {
                 return 0;
 
             case 'd' :
-                StringBuilder str = new StringBuilder();
-                str.append(" ");
-                str.append(in.getActors().get(i).getCareerDescription().toLowerCase());
-                str.append(" ");
-                String desc = str.toString();
+                String desc = " " +
+                        in.getActors().get(i).getCareerDescription().toLowerCase() +
+                        " ";
                 desc = desc.replaceAll("\\W", " ");
 
                 for (String s : filtersA.get(filtersA.size() - 1)) {

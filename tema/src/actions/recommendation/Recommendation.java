@@ -23,7 +23,7 @@ public class Recommendation {
     /**
      * @return the result of a standard recommendation
      */
-    public String standard(final Input in, final UserCommands comm, final UserInputData u) {
+    private String standard(final Input in, final UserCommands comm, final UserInputData u) {
         for (MovieInputData m : in.getMovies()) {
             if (comm.hasSeen(m.getTitle(), u) == 0) {
                 return rb.buildRec(m.getTitle(), 's', 1);
@@ -40,7 +40,7 @@ public class Recommendation {
     /**
      * @return the result of a bestUnseen recommendation
      */
-    public String bestUnseen(final Input in, final UserCommands comm, final UserInputData u,
+    private String bestUnseen(final Input in, final UserCommands comm, final UserInputData u,
                              final Grader grd) {
         Sorter sorter = new Sorter();
         LinkedHashMap<String, Double> result;
@@ -76,7 +76,7 @@ public class Recommendation {
     /**
      * @return the result of a popular recommendation
      */
-    public String popular(final Input in, final UserCommands comm, final UserInputData u) {
+    private String popular(final Input in, final UserCommands comm, final UserInputData u) {
         if (!u.getSubscriptionType().equals("BASIC")) {
             LinkedHashMap<String, Double> result = new LinkedHashMap<>();
             GenrePopularityCalculator gpc = new GenrePopularityCalculator();
@@ -109,7 +109,7 @@ public class Recommendation {
     /**
      * @return the result of a favourite recommendation
      */
-    public String favorite(final Input in, final UserCommands comm, final UserInputData u) {
+    private String favorite(final Input in, final UserCommands comm, final UserInputData u) {
         if (!u.getSubscriptionType().equals("BASIC")) {
             LinkedHashMap<String, Double> result = new LinkedHashMap<>();
             FavorabilityCalculator fc = new FavorabilityCalculator();
@@ -157,7 +157,7 @@ public class Recommendation {
     /**
      * @return the result of a search recommendation
      */
-    public String search(final Input in, final UserCommands comm, final UserInputData u,
+    private String search(final Input in, final UserCommands comm, final UserInputData u,
                          final ActionInputData a, final Grader grd) {
         if (u.getSubscriptionType().equals("BASIC")) {
             return rb.buildRec("", 'f', 0);

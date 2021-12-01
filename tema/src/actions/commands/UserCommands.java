@@ -17,7 +17,7 @@ public class UserCommands {
     /**
      * @return the result of a view command
      */
-    public String view(final UserInputData user, final String title) {
+    private String view(final UserInputData user, final String title) {
 
         if (user.getHistory().containsKey(title)) {
             user.getHistory().put(title, user.getHistory().get(title) + 1);
@@ -43,7 +43,7 @@ public class UserCommands {
     /**
      * @return the result of a favourite command
      */
-    public String favorite(final UserInputData user, final String title) {
+    private String favorite(final UserInputData user, final String title) {
         if (hasSeen(title, user) == 1) {
             if (!user.getFavoriteMovies().contains(title)) {
                 user.getFavoriteMovies().add(title);
@@ -59,7 +59,7 @@ public class UserCommands {
     /**
      * @return the result of a rate MOVIE command
      */
-    public String gradeM(final Input in, final ActionInputData a, final Grader grd,
+    private String gradeM(final Input in, final ActionInputData a, final Grader grd,
                          final int usrIndex) {
         if (hasSeen(a.getTitle(), in.getUsers().get(usrIndex)) == 1) {
             /*Check if the movie was already rated by others users*/
@@ -107,7 +107,7 @@ public class UserCommands {
     /**
      * @return the result of a rate SERIAL command
      */
-    public String gradeS(final ActionInputData a, final UserInputData user, final Grader grd,
+    private String gradeS(final ActionInputData a, final UserInputData user, final Grader grd,
                          final int tSeasons) {
         if (hasSeen(a.getTitle(), user) == 0) {
             return "error -> " + a.getTitle() + " is not seen";

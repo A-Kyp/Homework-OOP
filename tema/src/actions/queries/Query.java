@@ -20,7 +20,7 @@ public class Query {
     /**
      * @return the result of a user query
      */
-    public String numberOfRatings(final int n, final String order, final Grader grd,
+    private String numberOfRatings(final int n, final String order, final Grader grd,
                                   final Input in, final ActionInputData a) {
         LinkedHashMap<String, Double> result;
         result = grd.getFilmUserActivity();
@@ -32,7 +32,7 @@ public class Query {
     /**
      * @return the result of a MOVIE rate query
      */
-    public String ratingMovie(final String order, final Grader grd, final Input in,
+    private String ratingMovie(final String order, final Grader grd, final Input in,
                               final ActionInputData a) {
         QueryBuilder qb = new QueryBuilder();
 
@@ -45,7 +45,7 @@ public class Query {
     /**
      * @return the result of a SERIAL rate query
      */
-    public String ratingShow(final String order, final Grader grd, final Input in,
+    private String ratingShow(final String order, final Grader grd, final Input in,
                              final ActionInputData a) {
         LinkedHashMap<String, Double> result;
         result = grd.getRateForSerial();
@@ -57,7 +57,7 @@ public class Query {
     /**
      * @return the result of a MOVIE longest query
      */
-    public String longestM(final String order, final Input in, final ActionInputData a) {
+    private String longestM(final String order, final Input in, final ActionInputData a) {
         LinkedHashMap<String, Double> result = new LinkedHashMap<>();
         DurationCalculator dc = new DurationCalculator();
         QueryBuilder qb = new QueryBuilder();
@@ -72,7 +72,7 @@ public class Query {
     /**
      * @return the result of a SERIAL longest query
      */
-    public String longestS(final String order, final Input in, final ActionInputData a) {
+    private String longestS(final String order, final Input in, final ActionInputData a) {
         LinkedHashMap<String, Double> result = new LinkedHashMap<>();
         DurationCalculator dc = new DurationCalculator();
         QueryBuilder qb = new QueryBuilder();
@@ -87,7 +87,7 @@ public class Query {
     /**
      * @return the result of a MOVIE favourite query
      */
-    public  String favoriteM(final int n, final String order, final Input in,
+    private String favoriteM(final int n, final String order, final Input in,
                              final ActionInputData a) {
         LinkedHashMap<String, Double> result = new LinkedHashMap<>();
         FavorabilityCalculator fc = new FavorabilityCalculator();
@@ -108,7 +108,7 @@ public class Query {
     /**
      * @return the result of a SERIAL favourite query
      */
-    public  String favoriteS(final int n, final String order, final Input in,
+    private String favoriteS(final int n, final String order, final Input in,
                              final ActionInputData a) {
         LinkedHashMap<String, Double> result = new LinkedHashMap<>();
         FavorabilityCalculator fc = new FavorabilityCalculator();
@@ -129,7 +129,7 @@ public class Query {
     /**
      * @return the result of a MOVIE most views query
      */
-    public String mostViewM(final int n, final String order, final Input in,
+    private String mostViewM(final int n, final String order, final Input in,
                             final ActionInputData a) {
         LinkedHashMap<String, Double> result = new LinkedHashMap<>();
         ViewsCalculator vc = new ViewsCalculator();
@@ -148,7 +148,7 @@ public class Query {
     /**
      * @return the result of a SERIAL most views query
      */
-    public String mostViewS(final int n, final String order, final Input in,
+    private String mostViewS(final int n, final String order, final Input in,
                             final ActionInputData a) {
         LinkedHashMap<String, Double> result = new LinkedHashMap<>();
         ViewsCalculator vc = new ViewsCalculator();
@@ -167,7 +167,7 @@ public class Query {
     /**
      * @return the result of an actor average query
      */
-    public String average(final int n, final String order, final Input in,
+    private String average(final int n, final String order, final Input in,
                           final ActionInputData a, final Grader grd) {
         LinkedHashMap<String, Double> result = new LinkedHashMap<>();
         ActorAverageCalculator ac = new ActorAverageCalculator();
@@ -185,7 +185,7 @@ public class Query {
     /**
      * @return the result of an actor awards query
      */
-    public String awards(final int n, final String order, final Input in,
+    private String awards(final int n, final String order, final Input in,
                          final ActionInputData a) {
         LinkedHashMap<String, Double> result = new LinkedHashMap<>();
         AwardsCalculator ac = new AwardsCalculator();
@@ -204,7 +204,7 @@ public class Query {
     /**
      * @return the result of an actor filter_description query
      */
-    public String description(final int n, final String order, final Input in,
+    private String description(final int n, final String order, final Input in,
                               final ActionInputData a) {
         double fillNum = 1d;
         LinkedHashMap<String, Double> result = new LinkedHashMap<>();
