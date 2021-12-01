@@ -1,10 +1,10 @@
 package actions.queries;
 
-import actions.Calculators.ActorAverageCalculator;
-import actions.Calculators.AwardsCalculator;
-import actions.Calculators.DurationCalculator;
-import actions.Calculators.FavorabilityCalculator;
-import actions.Calculators.ViewsCalculator;
+import actions.calculators.ActorAverageCalculator;
+import actions.calculators.AwardsCalculator;
+import actions.calculators.DurationCalculator;
+import actions.calculators.FavorabilityCalculator;
+import actions.calculators.ViewsCalculator;
 import actions.commands.Grader;
 import fileio.ActionInputData;
 import fileio.ActorInputData;

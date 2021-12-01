@@ -1,4 +1,4 @@
-package actions.Calculators;
+package actions.calculators;
 
 import actions.commands.Grader;
 import fileio.ActorInputData;

@@ -1,8 +1,8 @@
 package actions.commands;
 
-import actions.IndexFinders.MovieIndexFinder;
-import actions.IndexFinders.SerialIndexFinder;
-import actions.IndexFinders.UserIndexFinder;
+import actions.indexFinders.MovieIndexFinder;
+import actions.indexFinders.SerialIndexFinder;
+import actions.indexFinders.UserIndexFinder;
 import fileio.ActionInputData;
 import fileio.Input;
 import fileio.UserInputData;

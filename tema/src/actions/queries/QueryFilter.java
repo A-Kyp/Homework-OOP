@@ -1,8 +1,8 @@
 package actions.queries;
 
-import actions.IndexFinders.ActorIndexFinder;
-import actions.IndexFinders.MovieIndexFinder;
-import actions.IndexFinders.SerialIndexFinder;
+import actions.indexFinders.ActorIndexFinder;
+import actions.indexFinders.MovieIndexFinder;
+import actions.indexFinders.SerialIndexFinder;
 import fileio.ActionInputData;
 import fileio.Input;
 import fileio.MovieInputData;

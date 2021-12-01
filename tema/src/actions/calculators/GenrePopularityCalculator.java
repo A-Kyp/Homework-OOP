@@ -1,7 +1,7 @@
-package actions.Calculators;
+package actions.calculators;
 
-import actions.IndexFinders.MovieIndexFinder;
-import actions.IndexFinders.SerialIndexFinder;
+import actions.indexFinders.MovieIndexFinder;
+import actions.indexFinders.SerialIndexFinder;
 import actions.Sorter;
 import fileio.Input;
 import fileio.MovieInputData;

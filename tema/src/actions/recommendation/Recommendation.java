@@ -1,8 +1,8 @@
 package actions.recommendation;
 
-import actions.Calculators.FavorabilityCalculator;
-import actions.Calculators.GenrePopularityCalculator;
-import actions.IndexFinders.UserIndexFinder;
+import actions.calculators.FavorabilityCalculator;
+import actions.calculators.GenrePopularityCalculator;
+import actions.indexFinders.UserIndexFinder;
 import actions.Sorter;
 import actions.commands.Grader;
 import actions.commands.SerialsGrader;
@@ -50,12 +50,6 @@ public class Recommendation {
         result.putAll(grd.getRateForSerial());
 
         result = sorter.sortNAlf(result);
-
-        System.out.println("Rated videos: " + result.size());
-        int i = 1;
-        for (Map.Entry<String, Double> e : result.entrySet()) {
-            System.out.println(i++ + ". " + e.getKey()  + ": " + e.getValue());
-        }
 
         for (Map.Entry<String, Double> e : result.entrySet()) {
             if (comm.hasSeen(e.getKey(), u) == 0) {

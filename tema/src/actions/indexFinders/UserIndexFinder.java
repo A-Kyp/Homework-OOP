@@ -1,4 +1,4 @@
-package actions.IndexFinders;
+package actions.indexFinders;
 
 import fileio.Input;
 public class UserIndexFinder {

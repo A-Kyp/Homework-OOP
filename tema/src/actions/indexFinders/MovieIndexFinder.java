@@ -1,14 +1,14 @@
-package actions.IndexFinders;
+package actions.indexFinders;
 
 import fileio.Input;
 
-public class SerialIndexFinder {
+public class MovieIndexFinder {
     /**
-     * @return the index of a SERIAL in the SERIAL list
+     * @return the index of a MOVIE in the MOVIE list
      */
     public int getIndex(final String title, final Input input) {
-        for (int i = 0; i < input.getSerials().size(); ++i) {
-            if (input.getSerials().get(i).getTitle().equals(title)) {
+        for (int i = 0; i < input.getMovies().size(); ++i) {
+            if (input.getMovies().get(i).getTitle().equals(title)) {
                 return i; //return the index of the film
             }
         }
