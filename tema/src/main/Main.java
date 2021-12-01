@@ -6,7 +6,11 @@ import checker.Checker;
 import actions.commands.Grader;
 import actions.commands.UserCommands;
 import common.Constants;
-import fileio.*;
+import fileio.ActionInputData;
+import fileio.Input;
+import fileio.InputLoader;
+import fileio.UserInputData;
+import fileio.Writer;
 import org.json.simple.JSONArray;
 import actions.queries.Query;
 
@@ -78,22 +82,22 @@ public final class Main {
         Recommendation rec = new Recommendation();
 
         /*Iterate through the action list*/
-        for(ActionInputData aid : input.getCommands()) {
+        for (ActionInputData aid : input.getCommands()) {
             /*Check if the command is user related*/
-            if(aid.getActionType().equals("command")) {
+            if (aid.getActionType().equals("command")) {
                 for (UserInputData u : input.getUsers()) {
                     /*If the user exist execute the specified command*/
                     if (u.getUsername().equals(aid.getUsername())) {
-                        arrayResult.add(fileWriter.writeFile(aid.getActionId(), "", comm.execute(input, aid, u, grd)));
+                        arrayResult.add(fileWriter.writeFile(aid.getActionId(), "",
+                                            comm.execute(input, aid, u, grd)));
                     }
                 }
-            }
-            /*Check if ot it is a query*/
-            else if(aid.getActionType().equals("query")) {
-                arrayResult.add(fileWriter.writeFile(aid.getActionId(), "", query.execute(input,aid,grd)));
-            }
-            else {
-                arrayResult.add(fileWriter.writeFile(aid.getActionId(), "", rec.execute(input,aid,comm)));
+            } else if (aid.getActionType().equals("query")) { /*Check if ot it is a query*/
+                arrayResult.add(fileWriter.writeFile(aid.getActionId(), "",
+                                    query.execute(input, aid, grd)));
+            } else {
+                arrayResult.add(fileWriter.writeFile(aid.getActionId(), "",
+                                    rec.execute(input, aid, comm, grd)));
             }
         }
 

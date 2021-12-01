@@ -28,9 +28,8 @@ public final class Test {
         if (inputDir != null) {
             Arrays.sort(inputDir);
 
-//            Scanner scanner = new Scanner(System.in);
-//            String fileName = scanner.next();
-            String fileName = "a_test.json";
+            Scanner scanner = new Scanner(System.in);
+            String fileName = scanner.next();
             for (File file : inputDir) {
                 if (file.getName().equalsIgnoreCase(fileName)) {
                     Main.action(file.getAbsolutePath(), Constants.OUT_FILE);

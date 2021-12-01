@@ -2,11 +2,11 @@ package actions.commands;
 
 import java.util.ArrayList;
 
-public class SerialsGrader {
+public final class SerialsGrader {
     private String title;
     private ArrayList<SerialGradesByUser> ratings = new ArrayList<>();
 
-    public SerialsGrader(String title) {
+    public SerialsGrader(final String title) {
         this.title = title;
     }
 
@@ -14,7 +14,7 @@ public class SerialsGrader {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -22,15 +22,19 @@ public class SerialsGrader {
         return ratings;
     }
 
-    public void setRatings(ArrayList<SerialGradesByUser> ratings) {
+    public void setRatings(final ArrayList<SerialGradesByUser> ratings) {
         this.ratings = ratings;
     }
 
+    /**
+     * @return Overall grade for a SERIAL
+     *          the average of each user rate for the SERIAL
+     */
     public Double calculateGrade() {
         double sum = 0d;
-        for(SerialGradesByUser g : ratings) {
+        for (SerialGradesByUser g : ratings) {
             sum += g.average();
         }
-        return sum/ratings.size();
+        return sum / ratings.size();
     }
 }

@@ -3,9 +3,12 @@ package actions.IndexFinders;
 import fileio.Input;
 
 public class SerialIndexFinder {
-    public int getIndex(String title, Input input) {
-        for(int i = 0; i < input.getSerials().size(); ++i) {
-            if(input.getSerials().get(i).getTitle().equals(title)) {
+    /**
+     * @return the index of a SERIAL in the SERIAL list
+     */
+    public int getIndex(final String title, final Input input) {
+        for (int i = 0; i < input.getSerials().size(); ++i) {
+            if (input.getSerials().get(i).getTitle().equals(title)) {
                 return i; //return the index of the film
             }
         }

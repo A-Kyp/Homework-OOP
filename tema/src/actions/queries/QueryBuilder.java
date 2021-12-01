@@ -17,16 +17,18 @@ public class QueryBuilder {
      *             anything else positive (an int) for serials
      *             and anything else negative (an int) for actors
      *
+     * @return build the result of a general query
+     *
      * */
-    public String buildQuery(LinkedHashMap<String, Double> result, String ord,
-                             ActionInputData a, Input in, int n, int filter, int type) {
+    public String buildQuery(LinkedHashMap<String, Double> result, final String ord,
+                             final ActionInputData a, final Input in, final int n,
+                             final int filter, final int type) {
         Sorter sorter = new Sorter();
         QueryFilter video = new QueryFilter(a, filter);
 
         if (ord.equals("asc")) {
             result =  sorter.sortAscOrder(result);
-        }
-        else {
+        } else {
             result = sorter.sortDescOrder(result);
         }
 
@@ -34,9 +36,9 @@ public class QueryBuilder {
         sb.append("Query result: [");
 
         int found = 0;
-        if(n > in.getSerials().size()) {
-            for(String s : result.keySet()) {
-                if(type >= 0) { //if it is a video
+        if (n > in.getSerials().size()) {
+            for (String s : result.keySet()) {
+                if (type >= 0) { //if it is a video
                     if (type == 0) { //if ot is a movie
                         if (video.fitFilterM(in, s) == 1) {
                             sb.append(s);
@@ -53,29 +55,33 @@ public class QueryBuilder {
                     }
                 }
             }
-        }
-        else {
+        } else {
             int i = 0;
-            for(String s : result.keySet()) {
-                if(type >= 0) { //video
+            for (String s : result.keySet()) {
+                if (type >= 0) { //video
                     if (type == 0) { //movie
                         if (video.fitFilterM(in, s) == 1) {
                             sb.append(s);
                             sb.append(", ");
                             found = 1;
+                            i++;
                         }
 
-                    } else {//serial
+                    } else { //serial
                         if (video.fitFilterS(in, s) == 1) {
                             sb.append(s);
                             sb.append(", ");
                             found = 1;
+                            i++;
                         }
                     }
                 }
+                if (i == n) {
+                    break;
+                }
             }
         }
-        if(found == 1) {
+        if (found == 1) {
             int len = sb.toString().length();
             len--;
             sb.deleteCharAt(len);
@@ -86,15 +92,18 @@ public class QueryBuilder {
         return sb.toString();
     }
 
-    public String buildQueryA(LinkedHashMap<String, Double> result, String ord,
-                             ActionInputData a, Input in, int n, int filter, char query) {
+    /**
+     * @return build the result of an actor query
+     */
+    public String buildQueryA(LinkedHashMap<String, Double> result, final String ord,
+                            final ActionInputData a, final Input in, final int n,
+                              final int filter, final char query) {
         Sorter sorter = new Sorter();
         QueryFilter video = new QueryFilter(a, filter);
 
         if (ord.equals("asc")) {
             result =  sorter.sortAscOrder(result);
-        }
-        else {
+        } else {
             result = sorter.sortDescOrder(result);
         }
 
@@ -104,8 +113,6 @@ public class QueryBuilder {
         int found = 0;
         if (n == -1 || n > in.getActors().size()) {
             for (String s : result.keySet()) {
-
-                //if it is an actor
                 if (video.fitFilterAw(in, s, query) == 1) {
                     sb.append(s);
                     sb.append(", ");
