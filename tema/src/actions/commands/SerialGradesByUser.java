@@ -2,7 +2,7 @@ package actions.commands;
 
 import java.util.ArrayList;
 
-public class SerialGradesByUser {
+public final class SerialGradesByUser {
     private ArrayList<Double> seasonsGrades = new ArrayList<>();
     private String username;
 
@@ -10,7 +10,7 @@ public class SerialGradesByUser {
         return seasonsGrades;
     }
 
-    public void setSeasonsGrades(ArrayList<Double> seasonsGrades) {
+    public void setSeasonsGrades(final ArrayList<Double> seasonsGrades) {
         this.seasonsGrades = seasonsGrades;
     }
 
@@ -18,20 +18,30 @@ public class SerialGradesByUser {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
+    /**
+     * @return the average grade given by a single user for the SERIAL
+     */
     public Double average() {
         Double sum = 0d;
-        for(Double d : seasonsGrades) {
+        for (Double d : seasonsGrades) {
             sum += d;
         }
-        return sum/(seasonsGrades.size() - 1);
+        return sum / (seasonsGrades.size() - 1);
     }
 
-    public void initialize(int totalNrSeasons) {
-        for(int i = 0; i <= totalNrSeasons; ++i) {
+    /**
+     * Initialize a vector with a SERIAL's number of seasons element
+     * to be used as storage for the user rate for each season
+     * v(i) -> the grade for the i-th season given by a single user
+     *
+     * @param totalNrSeasons SERIAL total number of seasons
+     */
+    public void initialize(final int totalNrSeasons) {
+        for (int i = 0; i <= totalNrSeasons; ++i) {
             seasonsGrades.add(0d);
         }
     }

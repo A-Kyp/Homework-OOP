@@ -2,9 +2,12 @@ package actions.IndexFinders;
 
 import fileio.Input;
 public class UserIndexFinder {
-    public int getindex(String name, Input input) {
-        for(int i = 0; i < input.getUsers().size(); ++i) {
-            if(input.getUsers().get(i).getUsername().equals(name)) {
+    /**
+     * @return the index of a user in the user list
+     */
+    public int getIndex(final String name, final Input input) {
+        for (int i = 0; i < input.getUsers().size(); ++i) {
+            if (input.getUsers().get(i).getUsername().equals(name)) {
                 return i; //return the index of the user
             }
         }

@@ -1,14 +1,15 @@
 package actions.Calculators;
 
-import entertainment.Season;
-import fileio.ActionInputData;
 import fileio.ActorInputData;
-import fileio.SerialInputData;
 
 public class AwardsCalculator {
-    public Double totalAwards(ActorInputData act) {
+    /**
+     * @param act the actor for whom to calculate
+     * @return the total number of awards
+     */
+    public Double totalAwards(final ActorInputData act) {
         Double sum = 0d;
-        for(Integer aw : act.getAwards().values()) {
+        for (Integer aw : act.getAwards().values()) {
             sum += aw;
         }
         return sum;
